@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enter Vehicle No</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.phone {
+  width: 390px;
+  height: 700px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+/* Top bar */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.top-bar i {
+  cursor: pointer;
+}
+
+/* Image preview */
+.image-box {
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Input */
+.input-box {
+  margin-top: 60px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Verify button */
+.verify-btn {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  right: 20px;
+  background: #ef4444;
+  color: #00ffd5;
+  border: none;
+  padding: 16px;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.verify-btn:active {
+  transform: scale(0.98);
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="phone">
+    <!-- Header -->
+    <div class="top-bar">
+      <i class="fa-solid fa-arrow-left" onclick="goBack()"></i>
+      <span>Enter Vehicle No</span>
+    </div>
+
+    <!-- Input box -->
+    <div class="input-box">
+      <input type="text" placeholder="Enter Vehicle No">
+    </div>
+
+    <!-- Verify Button -->
+    <button class="verify-btn" onclick="verifyVehicle()">
+      Verify
+    </button>
+  </div>
+
+  <script>
+    function verifyVehicle() {
+      // later connect Firestore lookup
+      window.location.href = "details.html";
+    }
+
+    function goBack() {
+      window.location.href = "index.html";
+    }
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBP45euFXv1VU2bW8Ld_vrLpodSKQr9wxQ",
+    authDomain: "saferide-97cff.firebaseapp.com",
+    projectId: "saferide-97cff",
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
+</body>
+</html>

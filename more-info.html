@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>More Information</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.phone {
+  width: 390px;
+  height: 700px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+/* Top bar */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.top-bar i {
+  cursor: pointer;
+}
+
+/* Image preview */
+.image-box {
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Input */
+.input-box {
+  margin-top: 60px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Verify button */
+.verify-btn {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  right: 20px;
+  background: #ef4444;
+  color: #00ffd5;
+  border: none;
+  padding: 16px;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.verify-btn:active {
+  transform: scale(0.98);
+}
+/* Info card */
+.info-card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.verified {
+  color: green;
+  font-weight: bold;
+}
+
+/* Driver card */
+.driver-card {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+.driver-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+/* Trust score */
+.center-text {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.score-circle {
+  width: 150px;
+  height: 150px;
+  border: 3px solid #22c55e;
+  border-radius: 50%;
+  margin: 10px auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #22c55e;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Flags */
+.flags {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Action buttons */
+.action-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.start {
+  background: #22c55e;
+  color: black;
+  border: none;
+  padding: 12px;
+  width: 30%;
+  border-radius: 8px;
+}
+
+.sos {
+  background: red;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 30%;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.feedback {
+  background: #93c5fd;
+  color: black;
+  border: none;
+  padding: 12px;
+  width: 30%;
+  border-radius: 8px;
+}
+
+/* Bottom button */
+.more-btn {
+  width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+/* More Info sections */
+.info-section {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.info-section h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.info-section ul {
+  padding-left: 18px;
+}
+
+.info-section li {
+  margin-bottom: 6px;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="phone">
+
+    <!-- Header -->
+    <div class="top-bar">
+      <i class="fa-solid fa-arrow-left" onclick="goBack()"></i>
+      <span>More Information</span>
+    </div>
+
+    <!-- Challans -->
+    <div class="info-section">
+      <h3>🚓 Challan Details</h3>
+      <ul>
+        <li>Overspeeding – ₹1000 (Paid)</li>
+        <li>No Helmet – ₹500 (Pending)</li>
+        <li>Signal Jump – ₹1500 (Paid)</li>
+      </ul>
+    </div>
+
+    <!-- Trust Score -->
+    <div class="info-section">
+      <h3>📊 Trust Score Breakdown</h3>
+      <p>Driving Behaviour: <b>Good</b></p>
+      <p>Violation History: <b>Moderate</b></p>
+      <p>Route Discipline: <b>Average</b></p>
+      <p><strong>Final Score:</strong> 86 / 100</p>
+    </div>
+
+    <!-- Route Deviations -->
+    <div class="info-section">
+      <h3>🛣 Route Deviations</h3>
+      <ul>
+        <li>Deviation near NH‑44 (2 km)</li>
+        <li>Unexpected stop near Toll Plaza</li>
+      </ul>
+    </div>
+
+    <!-- Area Insights -->
+    <div class="info-section">
+      <h3>📍 Area Insights</h3>
+      <p>High accident‑prone area</p>
+      <p>Moderate traffic congestion</p>
+      <p>Night travel risk: <b>High</b></p>
+    </div>
+
+    <!-- Bottom Button -->
+    <button class="more-btn" onclick="goHome()">Back to Home</button>
+
+  </div>
+
+  <script>
+    function goBack() {
+      history.back();
+    }
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBP45euFXv1VU2bW8Ld_vrLpodSKQr9wxQ",
+    authDomain: "saferide-97cff.firebaseapp.com",
+    projectId: "saferide-97cff",
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+</body>
+</html>

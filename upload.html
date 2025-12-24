@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Image</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+ <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+
+  <style>
+    * {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.phone {
+  width: 390px;
+  height: 700px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+/* Top bar */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.top-bar i {
+  cursor: pointer;
+}
+
+/* Image preview */
+.image-box {
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Input */
+.input-box {
+  margin-top: 60px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Verify button */
+.verify-btn {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  right: 20px;
+  background: #ef4444;
+  color: #00ffd5;
+  border: none;
+  padding: 16px;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.verify-btn:active {
+  transform: scale(0.98);
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="phone">
+    <!-- Header -->
+    <div class="top-bar">
+      <i class="fa-solid fa-arrow-left" onclick="goBack()"></i>
+      <span>Upload Image</span>
+    </div>
+
+    <!-- Image Preview -->
+    <div class="image-box">
+      <img id="preview"
+           src="https://via.placeholder.com/350x200?text=Upload+Image"
+           alt="Vehicle Image">
+    </div>
+
+    <!-- Hidden file input -->
+    <input type="file" id="fileInput" accept="image/*" hidden>
+
+    <!-- Verify Button -->
+    <button class="verify-btn" onclick="verifyImage()">
+      Verify
+    </button>
+  </div>
+
+  <script>
+  const fileInput = document.getElementById("fileInput");
+  const preview = document.getElementById("preview");
+
+  let selectedFile = null;
+
+  preview.onclick = () => fileInput.click();
+
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      selectedFile = fileInput.files[0];
+      preview.src = URL.createObjectURL(selectedFile);
+    }
+  };
+
+
+async function verifyImage() {
+  if (!selectedFile) {
+    alert("Please upload an image first");
+    return;
+  }
+
+  alert("Scanning image... Please wait ⏳");
+
+  const img = new Image();
+  img.src = URL.createObjectURL(selectedFile);
+
+  img.onload = async () => {
+    // Create canvas
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+
+    // 🔥 IMAGE PREPROCESSING
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      const avg =
+        (imageData.data[i] +
+         imageData.data[i + 1] +
+         imageData.data[i + 2]) / 3;
+
+      const bw = avg > 140 ? 255 : 0; // threshold
+      imageData.data[i] =
+      imageData.data[i + 1] =
+      imageData.data[i + 2] = bw;
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    try {
+      const result = await Tesseract.recognize(
+        canvas,
+        "eng",
+        {
+          tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+          logger: m => console.log(m)
+        }
+      );
+
+      let text = result.data.text
+        .replace(/\n/g, " ")
+        .toUpperCase();
+
+      console.log("OCR TEXT:", text);
+
+      // 🔥 STRICT INDIAN VEHICLE REGEX
+      const regex =
+        /\b(AP|TS|TN|KA|MH|DL|UP|HR|RJ)\s?\d{2}\s?[A-Z]{1,2}\s?\d{4}\b/;
+
+      const match = text.match(regex);
+
+      if (!match) {
+        alert("Number not detected. Try clearer image.");
+        return;
+      }
+
+      let vehicleNo = match[0].replace(/\s+/g, "");
+
+      // 🔥 MANUAL CONFIRMATION (VERY IMPORTANT)
+      const confirmed = prompt("Confirm Vehicle Number", vehicleNo);
+      if (!confirmed) return;
+
+      localStorage.setItem("vehicleNo", confirmed.toUpperCase());
+      window.location.href = "details.html";
+
+    } catch (err) {
+      console.error(err);
+      alert("OCR failed. Try again.");
+    }
+  };
+}
+
+
+
+  function goBack() {
+    window.location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>
